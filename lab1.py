@@ -13,14 +13,12 @@
 #CIURA = [1,4,10,23,57,132,301,701,1577,3548,7983,17961,40412,90927,204585,460316,1035711,....] 
 
 #Shell_sort. Recebe como parametro um vetor e o seu tamanho.
-def shell_sort(array,n,seq): 
-    #define o meio do array.
-    meio = n // 2
+def shell_sort(array,n,seq):    
     #inicia i valendo 0 e percorre o vetor da sequencia utilizada (shell, knuth ou ciura)
     i = 0
     while i < 20:
         #caso ache um valor em seq[i+1] MAIOR que a posicao presente no meio do vetor, utiliza seq[i]
-        if seq[i+1] > meio:    
+        if seq[i+1] >= n:    
             #enquanto i, variavel que ira percorrer o vetor das sequencias, for maior ou igual a 0:                    
             while i >= 0: 
                 #com j comecando em seq[i] e indo ate o numero de elementos do vetor a ser ordenado               
@@ -55,19 +53,16 @@ knuth = [1,4,13,40,121,364,1093,3280,9841,29524,88573,265720,797161,2391484]
 ciura = [1,4,10,23,57,132,301,701,1577,3548,7983,17961,40412,90927,204585,460316,1035711] 
 
 #Primeiro vetor do arquivo entrada1.txt:
-array = [8, 2, 10, 11, 3, 9, 9, 15, 4, 14, 9, 6, 13, 3, 4, 8,]
+array = [16, 14, 12, 1, 8, 4, 9, 6, 15, 13, 11, 2, 7, 3, 10, 5]
 #n = array length
 n = len(array)
 
 #Printa informacoes na tela e chama a funcao shell_sort
 print(array, 'SEQ = SHELL')
 shell_sort(array,n,shell)
-print()
-array = [8, 2, 10, 11, 3, 9, 9, 15, 4, 14, 9, 6, 13, 3, 4, 8,]
+array = [16, 14, 12, 1, 8, 4, 9, 6, 15, 13, 11, 2, 7, 3, 10, 5]
 print(array, 'SEQ = KNUTH')
 shell_sort(array,n,knuth)
-print()
-array = [8, 2, 10, 11, 3, 9, 9, 15, 4, 14, 9, 6, 13, 3, 4, 8,]
+array = [16, 14, 12, 1, 8, 4, 9, 6, 15, 13, 11, 2, 7, 3, 10, 5]
 print(array, 'SEQ = CIURA')
 shell_sort(array,n,ciura)
-print()
