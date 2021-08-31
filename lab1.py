@@ -2,36 +2,41 @@
 #Nomes: Luccas da Silva Lima e Bruno Longo Farina
 #Turma: B
 
-#Sequencia a serem utilizadas:
+import time #biblioteca necessaria para cronometrar o tempo.
 
-#(Potencias de 2)
-#SHELL = [1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,524288,1048576,...]
-
-#(Para numeros maiores que 701, os termos dessa sequencia sao gerados pela formula hk = 2.25h(index(k-1)).)
-#KNUTH = [1,4,13,40,121,364,1093,3280,9841,29524,88573,265720,797161,2391484,...]
-
-#CIURA = [1,4,10,23,57,132,301,701,1577,3548,7983,17961,40412,90927,204585,460316,1035711,....] 
-
-
-#vai criar uma lista onde vai ser posto o texto antes de ser escrito no arquivo (é complicado mas confia)
+#vai criar uma lista onde vai ser posto o texto antes de ser escrito no arquivo
 textinho = []
+#mesma ideia da outra variavel
+textinho2 = []
 
+#funcao que define qual sequencia devera ser utilizada.
 def definir_seq(seq):
     if seq[2] == 4:
-        return 'Shell'
+        return 'SHELL'
     elif seq[2] == 13:
-        return 'Knuth'
+        return 'KNUTH'
     else:
-        return 'Ciura'
+        return 'CIURA'
 
-#Shell_sort. Recebe como parametro um vetor e o seu tamanho.
+#Funcao shell_sort. Recebe como parametro um vetor, o seu tamanho e uma sequencia.
 def shell_sort(array,n,seq):   
     
+    #exercicio 1:
     #escreve no textinho o array intacto e qual sequencia está sendo utilizada (ver se n é melhor fazer isso dentro da main ao inves da função)
     textinho.append(str(array))
     textinho.append('SEQ = ')
     textinho.append(definir_seq(seq))#aqui ta dando problema, ele tá escrevendo os números da sequencia ao invés de 
     textinho.append('\n')
+
+    #exercicio 2:
+    #!!! Talvez tentar colcoar isso na main ou em outra funcao, nao sei qual seria a melhor escolha.
+    #O programa funciona perfeitamente desse jeito, so fica meio baguncado 
+    if n >= 100:
+        inicio = time.time() #variavel que ira cronometrar o tempo de execucao.    
+        textinho2.append(definir_seq(seq))
+        textinho2.append(', ')    
+        textinho2.append(str(n))
+        textinho2.append(', ')
 
     #inicia i valendo 0 e percorre o vetor da sequencia utilizada (shell, knuth ou ciura)
     i = 0
@@ -54,7 +59,9 @@ def shell_sort(array,n,seq):
                     #Troca o outro valor do vetor. array[contador_aux]:
                     array[contador_aux] = aux
                     #Como as 'trocas' sao realizadas utilizando variaveis auxiliares, cada uma delas deve ser feita separadamente.
+                
                 #printa o array, informando qual incremento foi utilizado.
+                #!!! Talvez remover esse print ajude no desempenho do algoritmo.
                 print(array, 'INCR =',seq[i])
 
                 #vai colocar numa lista essa string que acabou de ser disposta
@@ -66,9 +73,19 @@ def shell_sort(array,n,seq):
                 i = i - 1
             #Caso o ordenamento tenha acontecido, i = 20 para interromper o loop no while.
             i = 20
+            
+            #!!! Talvez tentar colcoar isso na main ou em outra funcao, nao sei qual seria a melhor escolha.
+            #O programa funciona perfeitamente desse jeito, so fica meio baguncado            
+            if n >= 100:
+                fim = time.time()
+                tempo = (fim - inicio)
+                textinho2.append(str(tempo))
+                textinho2.append('\n')    
+
         #Caso seq[i+1] nao for >= n, incrementa i.
         else:
             i = i + 1
+    
               
                       
 
@@ -76,21 +93,8 @@ def shell_sort(array,n,seq):
 shell = [1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,524288,1048576]
 knuth = [1,4,13,40,121,364,1093,3280,9841,29524,88573,265720,797161,2391484]
 ciura = [1,4,10,23,57,132,301,701,1577,3548,7983,17961,40412,90927,204585,460316,1035711] 
-'''
-#Primeiro vetor do arquivo entrada1.txt:
-array = [16, 14, 12, 1, 8, 4, 9, 6, 15, 13, 11, 2, 7, 3, 10, 5]
-#n = array length
-n = len(array)
-#Printa informacoes na tela e chama a funcao shell_sort
-print(array, 'SEQ = SHELL')
-shell_sort(array,n,shell)
-array = [16, 14, 12, 1, 8, 4, 9, 6, 15, 13, 11, 2, 7, 3, 10, 5]
-print(array, 'SEQ = KNUTH')
-shell_sort(array,n,knuth)
-array = [16, 14, 12, 1, 8, 4, 9, 6, 15, 13, 11, 2, 7, 3, 10, 5]
-print(array, 'SEQ = CIURA')
-shell_sort(array,n,ciura)
-'''
+
+#Exercicio 1:
 #abre o arquivo para criar uma lista com os tamanhos de cada array
 with open('entrada1.txt','r') as f: #C:\\Users\\bruno\\OneDrive\\Documentos\\GitHub\\Lab1-Shell_sort\\
     tamanho = [int(r.split()[0]) for r in f]
@@ -104,9 +108,7 @@ for i in tamanho:
     #converte a string em uma lista de inteiros
     res = [int(i) for i in data.split()]
     #remove o primeiro valor, que era o tamanho 
-    del res[0]
-    #printa o array (acho que dá pra tirar essa parte)
-    print (res)
+    del res[0]    
     #e faz o shell sort dela
     shell_sort(res,i,shell)
     shell_sort(res,i,knuth)
@@ -117,6 +119,28 @@ arquivo = open('saida1.txt', 'w') #C:\\Users\\bruno\\OneDrive\\Documentos\\GitHu
 j = 0
 for i in textinho:
     arquivo.write(textinho[j])
+    j=j+1
+arquivo.close()
+f.close()
+
+#Exercicio 2:
+tamanho = [100, 1000, 10000, 100000, 1000000]
+f = open('entrada2.txt', 'r') 
+for i in tamanho:
+    data = f.readline()
+    #converte a string em uma lista de inteiros
+    res = [int(i) for i in data.split()]
+    #remove o primeiro valor, que era o tamanho 
+    del res[0]    
+    #e faz o shell sort dela
+    shell_sort(res,i,shell)    
+    shell_sort(res,i,knuth)
+    shell_sort(res,i,ciura)
+
+arquivo = open('saida2.txt', 'w') 
+j = 0
+for i in textinho2:
+    arquivo.write(textinho2[j])
     j=j+1
 arquivo.close()
 f.close()
