@@ -138,7 +138,7 @@ ciura = [1,4,10,23,57,132,301,701,1577,3548,7983,17961,40412,90927,204585,460316
 
 #Exercicio 1:
 #abre o arquivo para criar uma lista com os tamanhos de cada array
-with open('entrada1.txt','r') as f: #C:\\Users\\bruno\\OneDrive\\Documentos\\GitHub\\Lab1-Shell_sort\\
+with open('entrada1.txt','r') as f: 
     tamanho = [int(r.split()[0]) for r in f]
 
 #abre o arquivo de novo (n sei pq fechou)
@@ -148,13 +148,17 @@ f = open('entrada1.txt','r') #C:\\Users\\bruno\\OneDrive\\Documentos\\GitHub\\La
 for i in tamanho:
     data = f.readline()
     #converte a string em uma lista de inteiros
-    res = [int(i) for i in data.split()]
+    res1 = [int(i) for i in data.split()]
+    res2 = [int(i) for i in data.split()]
+    res3 = [int(i) for i in data.split()]
     #remove o primeiro valor, que era o tamanho 
-    del res[0]    
+    del res1[0]  
+    del res2[0]  
+    del res3[0]    
     #e faz o shell sort dela
-    shell_sort(res,i,shell)
-    shell_sort(res,i,knuth)
-    shell_sort(res,i,ciura)
+    shell_sort(res1,i,shell)
+    shell_sort(res2,i,knuth)
+    shell_sort(res3,i,ciura)
    
     #arquivo.write(str(res)+'\n')
 arquivo = open('saida1.txt', 'w') #C:\\Users\\bruno\\OneDrive\\Documentos\\GitHub\\Lab1-Shell_sort\\
@@ -173,13 +177,18 @@ f = open('entrada2.txt', 'r') #C:\\Users\\bruno\\OneDrive\\Documentos\\GitHub\\f
 for i in tamanho:
     data = f.readline()
     #converte a string em uma lista de inteiros
-    res = [int(i) for i in data.split()]
+    res1 = [int(i) for i in data.split()]
+    res2 = [int(i) for i in data.split()]
+    res3 = [int(i) for i in data.split()]
     #remove o primeiro valor, que era o tamanho 
-    del res[0]    
+    del res1[0] 
+    del res2[0]
+    del res3[0]   
+
     #e faz o shell sort dela
-    shell_sort2(res,i,shell)    
-    shell_sort2(res,i,knuth)
-    shell_sort2(res,i,ciura)
+    shell_sort2(res1,i,shell)  
+    shell_sort2(res2,i,knuth)
+    shell_sort2(res3,i,ciura)
 
 arquivo = open('saida2.txt', 'w') #C:\\Users\\bruno\\OneDrive\\Documentos\\GitHub\\fafafa\\fafasfa\\
 j = 0
