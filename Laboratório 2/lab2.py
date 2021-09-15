@@ -4,6 +4,7 @@
 
 #Biblioteca que gera numeros aleatorios
 import random
+import statistics
 
 #Funcao que seleciona a mediana entre 3 valores presentes no vetor (Valor inicial, final, e meio)
 #Sinceramente ficou uma gambiarra bem grande, mas nsei como arrumar mto bem ainda
@@ -14,7 +15,7 @@ def part_mediana3(array, start, end):
     for k in range(start,end):
         num = num + 1
     num = int(num / 2)
-    mid = num + start 
+    mid = num + start     
     if (start == mid):  #Caso o array tenha so 2 elementos, retorna o primeiro
         return 0         
     #Primeiro valor do vetor
@@ -22,23 +23,16 @@ def part_mediana3(array, start, end):
     #Ultimo valor do vetor
     aux[1] = array[mid]
     #Valor do meio
-    aux[2] = array[end] 
+    aux[2] = array[end]     
 
-    #Calcula a mediana
-    for i in range(0,1):
-        for j in range(1,2):
-            if(aux[i] > aux[j]):
-                auxiliar2 = aux[i]
-                aux[i] = aux[j]
-                aux[j] = auxiliar2
-
-    #Troca o valor da mediana pela primeira posicao do vetor
-    auxiliar2 = array[start]
-    array[start] = aux[1]
-    if (array[mid] == aux[1]):        
-        array[mid] = auxiliar2
-    elif (array[end] == aux[1]):       
-        array[end] = auxiliar2
+    #Calcula a mediana, utilizando a funcao statistics.median
+    mediana = statistics.median(aux)   
+    for i in range (start,end + 1):
+        #Coloca o valor da mediana na primeira posicao do vetor
+        if (mediana == array[i]):           
+            auxiliar2 = array[start]            
+            array[start] = mediana            
+            array[i] = auxiliar2 
 
 #Funcao que gera um particionador de forma aleatoria
 def part_random(array, start, end):    
@@ -60,9 +54,9 @@ def quicksort_lomuto_rnd(array, start, end):
 
 #Funcao Quicksort, utilizando o particionamento de Lomuto
 def quicksort_lomuto_med(array, start, end):
-    if(start < end):
-        part_mediana3(array, start, end)
-        q = lomuto(array, start, end)     
+    if(start < end):        
+        part_mediana3(array, start, end)        
+        q = lomuto(array, start, end)        
         quicksort_lomuto_med(array,start, q - 1)     #Ordena os elementos antes do particionador atual       
         quicksort_lomuto_med(array, q + 1, end)      #Ordena os elementos depois do particionador atual
 
@@ -85,9 +79,8 @@ def quicksort_hoare_med(array, start, end):
 #Funcao do particionamento de Lomuto
 def lomuto(array,start,end):      
     x = array[start] #particionador     
-    i = start    
-    for j in range (start+1,end + 1):
-        print(j)        
+    i = start  
+    for j in range (start+1,end + 1):                
         if array[j] <= x:
             i = i + 1
             #Troca array[i] com array[j]
@@ -98,7 +91,7 @@ def lomuto(array,start,end):
     aux = array[i + 1]
     array[i + 1] = array[start]
     array[start] = aux        
-    return (i+1)    
+    return(i+1)    
 
 #Funcao do particionamento de Hoare
 def hoare(array,start,end):
@@ -110,7 +103,7 @@ start = 0
 end = (len(teste) - 1)
 
 #Chama a funcao quicksort, utilizando lomuto e random
-quicksort_lomuto_rnd(teste, start, end)
+#quicksort_lomuto_rnd(teste, start, end)
 print("Array pos ordenamento (Lomuto random): ", teste)
 
 #Chama a funcao quicksort, utilizando lomuto e med3
