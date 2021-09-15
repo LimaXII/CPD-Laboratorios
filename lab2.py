@@ -4,7 +4,6 @@
 
 #Biblioteca que gera numeros aleatorios
 import random
-from statistics import median
 import statistics
 
 #Funcao que seleciona a mediana entre 3 valores presentes no vetor (Valor inicial, final, e meio)
@@ -58,8 +57,6 @@ def quicksort_lomuto_med(array, start, end):
     if(start < end):        
         part_mediana3(array, start, end)        
         q = lomuto(array, start, end)        
-        print(('Start', start) + ('End', end))  
-        print(q)  
         quicksort_lomuto_med(array,start, q - 1)     #Ordena os elementos antes do particionador atual       
         quicksort_lomuto_med(array, q + 1, end)      #Ordena os elementos depois do particionador atual
 
