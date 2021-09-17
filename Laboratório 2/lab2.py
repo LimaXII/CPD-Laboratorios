@@ -40,8 +40,8 @@ def part_random(array, start, end):
     n = random.randint(start,end)
 
     #Troca o valor pela primeira posicao do vetor
-    aux = array[end]
-    array[end] = array[n]
+    aux = array[start]
+    array[start] = array[n]
     array[n] = aux
 
 #Funcao Quicksort, utilizando o particionamento de Lomuto
@@ -78,9 +78,9 @@ def quicksort_hoare_med(array, start, end):
 
 #Funcao do particionamento de Lomuto
 def lomuto(array,start,end):      
-    x = array[end] #particionador     
-    i = start  
-    for j in range (start,end - 1):                
+    x = array[start] #particionador     
+    i = start + 1 
+    for j in range (start + 1,end + 1):                
         if array[j] <= x:
             
             #Troca array[i] com array[j]
@@ -91,10 +91,10 @@ def lomuto(array,start,end):
             print(array)
     #Troca array[i + 1] com o particionador
     print(i)
-    aux = array[i]
-    array[i] = array[end]
-    array[end] = aux        
-    return(i)    
+    aux = array[i - 1]
+    array[i - 1] = array[start]
+    array[start] = aux        
+    return(i - 1)    
 
 #Funcao do particionamento de Hoare
 def hoare(array,start,end):
@@ -107,7 +107,7 @@ end = (len(teste) - 1)
 
 #Chama a funcao quicksort, utilizando lomuto e random
 quicksort_lomuto_rnd(teste, start, end)
-#lomuto(teste,start,end)
+lomuto(teste,start,end)
 print("Array pos ordenamento (Lomuto random): ", teste)
 
 #Chama a funcao quicksort, utilizando lomuto e med3
