@@ -40,8 +40,8 @@ def part_random(array, start, end):
     n = random.randint(start,end)
 
     #Troca o valor pela primeira posicao do vetor
-    aux = array[start]
-    array[start] = array[n]
+    aux = array[end]
+    array[end] = array[n]
     array[n] = aux
 
 #Funcao Quicksort, utilizando o particionamento de Lomuto
@@ -78,20 +78,23 @@ def quicksort_hoare_med(array, start, end):
 
 #Funcao do particionamento de Lomuto
 def lomuto(array,start,end):      
-    x = array[start] #particionador     
+    x = array[end] #particionador     
     i = start  
-    for j in range (start+1,end + 1):                
+    for j in range (start,end - 1):                
         if array[j] <= x:
-            i = i + 1
+            
             #Troca array[i] com array[j]
             aux = array[i]                 
             array[i] = array[j]
             array[j] = aux
+            i = i + 1
+            print(array)
     #Troca array[i + 1] com o particionador
-    aux = array[i + 1]
-    array[i + 1] = array[start]
-    array[start] = aux        
-    return(i+1)    
+    print(i)
+    aux = array[i]
+    array[i] = array[end]
+    array[end] = aux        
+    return(i)    
 
 #Funcao do particionamento de Hoare
 def hoare(array,start,end):
@@ -103,10 +106,11 @@ start = 0
 end = (len(teste) - 1)
 
 #Chama a funcao quicksort, utilizando lomuto e random
-#quicksort_lomuto_rnd(teste, start, end)
+quicksort_lomuto_rnd(teste, start, end)
+#lomuto(teste,start,end)
 print("Array pos ordenamento (Lomuto random): ", teste)
 
 #Chama a funcao quicksort, utilizando lomuto e med3
-teste = [19,5,2,10,9,25,93,41,8]  #Reseta a sequencia de teste
-quicksort_lomuto_med(teste, start, end)
-print("Array pos ordenamento (Lomuto med3): ", teste)
+#teste = [19,5,2,10,9,25,93,41,8]  #Reseta a sequencia de teste
+#quicksort_lomuto_med(teste, start, end)
+#print("Array pos ordenamento (Lomuto med3): ", teste)
