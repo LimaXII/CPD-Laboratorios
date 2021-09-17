@@ -88,9 +88,7 @@ def lomuto(array,start,end):
             array[i] = array[j]
             array[j] = aux
             i = i + 1
-            print(array)
     #Troca array[i + 1] com o particionador
-    print(i)
     aux = array[i - 1]
     array[i - 1] = array[start]
     array[start] = aux        
@@ -98,17 +96,36 @@ def lomuto(array,start,end):
 
 #Funcao do particionamento de Hoare
 def hoare(array,start,end):
-    print('blank')
+    pivot = array[start]
+    i = start + 1
+    j = end
+
+    while True:
+        while array[i] < pivot:
+            i += 1
+        while array[j] > pivot:
+            j -= 1
+        if i >= j:
+            array[start], array[j] = array[j], array[start]    #colocar aqui para trocar
+            return j
+        array[i], array[j] = array[j], array[i]
+
+    
+
 
 #Funcao main
-teste = [19,5,2,10,9,25,93,41,8]  #Sequencia de teste
+teste = [19,5,2,10,9,25,93,52,33,2,9,41,8]  #Sequencia de teste
 start = 0
 end = (len(teste) - 1)
 
+
 #Chama a funcao quicksort, utilizando lomuto e random
 quicksort_lomuto_rnd(teste, start, end)
-lomuto(teste,start,end)
 print("Array pos ordenamento (Lomuto random): ", teste)
+teste = [19,5,2,10,9,25,93,52,33,2,9,41,8]  #Sequencia de teste
+
+quicksort_hoare_med(teste, start, end)
+print("Array pos ordenamento (horae medio): ", teste)
 
 #Chama a funcao quicksort, utilizando lomuto e med3
 #teste = [19,5,2,10,9,25,93,41,8]  #Reseta a sequencia de teste
