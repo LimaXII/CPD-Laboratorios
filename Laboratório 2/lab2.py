@@ -6,6 +6,10 @@
 import random
 import statistics
 
+
+
+
+
 #Funcao que seleciona a mediana entre 3 valores presentes no vetor (Valor inicial, final, e meio)
 #Sinceramente ficou uma gambiarra bem grande, mas nsei como arrumar mto bem ainda
 #Pode mudar se quiser
@@ -45,49 +49,57 @@ def part_random(array, start, end):
     array[n] = aux
 
 #Funcao Quicksort, utilizando o particionamento de Lomuto
-def quicksort_lomuto_rnd(array, start, end):
+def quicksort_lomuto_rnd(array, start, end, recursao, swaps):
     if(start < end):
+        recursao[0] +=1
+
         part_random(array, start, end)
-        q = lomuto(array, start, end)     
-        quicksort_lomuto_rnd(array,start, q - 1)     #Ordena os elementos antes do particionador atual       
-        quicksort_lomuto_rnd(array,q + 1, end)       #Ordena os elementos depois do particionador atual
+        q = lomuto(array, start, end, swaps)     
+        quicksort_lomuto_rnd(array,start, q - 1, recursao, swaps)        #Ordena os elementos antes do particionador atual       
+        quicksort_lomuto_rnd(array,q + 1, end, recursao, swaps)     #Ordena os elementos depois do particionador atual
+     
+           
 
 #Funcao Quicksort, utilizando o particionamento de Lomuto
-def quicksort_lomuto_med(array, start, end):
+def quicksort_lomuto_med(array, start, end, recursao, swaps):
     if(start < end):        
+        recursao[0] +=1
         part_mediana3(array, start, end)        
         q = lomuto(array, start, end)        
-        quicksort_lomuto_med(array,start, q - 1)     #Ordena os elementos antes do particionador atual       
-        quicksort_lomuto_med(array, q + 1, end)      #Ordena os elementos depois do particionador atual
+        quicksort_lomuto_med(array,start, q - 1, recursao, swaps)     #Ordena os elementos antes do particionador atual       
+        quicksort_lomuto_med(array, q + 1, end, recursao, swaps) #Ordena os elementos depois do particionador atual
 
 #Funcao Quicksort, utilizando o particionamento de Hoare random
-def quicksort_hoare_rnd(array, start, end):
+def quicksort_hoare_rnd(array, start, end, recursao, swaps):
     if(start < end):
+        recursao[0] +=1
         part_random(array, start, end)
-        q = hoare(array, start, end)        
-        quicksort_hoare_rnd(array,start, q - 1)      #Ordena os elementos antes do particionador atual    
-        quicksort_hoare_rnd(array, q + 1, end)       #Ordena os elementos depois do particionador atual
+        q = hoare(array, start, end, swaps)        
+        quicksort_hoare_rnd(array,start, q - 1, recursao, swaps)      #Ordena os elementos antes do particionador atual    
+        quicksort_hoare_rnd(array, q + 1, end, recursao, swaps)       #Ordena os elementos depois do particionador atual
 
 #Funcao Quicksort, utilizando o particionamento de Hoare mediana3
-def quicksort_hoare_med(array, start, end):
+def quicksort_hoare_med(array, start, end, recursao, swaps):
     if(start < end):
+        recursao[0] +=1
         part_mediana3(array, start, end)
-        q = hoare(array, start, end)        
-        quicksort_hoare_med(array,start, q - 1)      #Ordena os elementos antes do particionador       
-        quicksort_hoare_med(array, q + 1, end)       #Ordena os elementos depois do particionador
+        q = hoare(array, start, end, swaps)        
+        quicksort_hoare_med(array,start, q - 1, recursao, swaps)      #Ordena os elementos antes do particionador       
+        quicksort_hoare_med(array, q + 1, end, recursao, swaps)       #Ordena os elementos depois do particionador
 
 #Funcao do particionamento de Lomuto
-def lomuto(array,start,end):      
+def lomuto(array,start,end, swaps):      
     x = array[start] #particionador     
     i = start + 1 
     for j in range (start + 1,end + 1):                
         if array[j] <= x:
-            
+            swaps[0]+=1
             #Troca array[i] com array[j]
             aux = array[i]                 
             array[i] = array[j]
             array[j] = aux
             i = i + 1
+            
     #Troca array[i + 1] com o particionador
     aux = array[i - 1]
     array[i - 1] = array[start]
@@ -95,7 +107,7 @@ def lomuto(array,start,end):
     return(i - 1)    
 
 #Funcao do particionamento de Hoare
-def hoare(array,start,end):
+def hoare(array,start,end, swaps):
     pivot = array[start]
     i = start + 1
     j = end
@@ -108,11 +120,15 @@ def hoare(array,start,end):
         if i >= j:
             array[start], array[j] = array[j], array[start]    #colocar aqui para trocar
             return j
+        swaps[0]+=1
         array[i], array[j] = array[j], array[i]
 
-    
+def zera_o_bagulho(recursao, swaps):
+    recursao[0]=0
+    swaps[0]=0
 
-
+recursao = [0]
+swaps=[0]
 #Funcao main
 teste = [19,5,2,10,9,25,93,52,33,2,9,41,8]  #Sequencia de teste
 start = 0
@@ -120,12 +136,23 @@ end = (len(teste) - 1)
 
 
 #Chama a funcao quicksort, utilizando lomuto e random
-quicksort_lomuto_rnd(teste, start, end)
+quicksort_lomuto_rnd(teste, start, end, recursao, swaps)
 print("Array pos ordenamento (Lomuto random): ", teste)
-teste = [19,5,2,10,9,25,93,52,33,2,9,41,8]  #Sequencia de teste
+print("numero de recursoes", recursao[0])
+print("numero de trocas", swaps[0])
 
-quicksort_hoare_med(teste, start, end)
+
+
+
+teste = [19,5,2,10,9,25,93,52,33,2,9,41,8]  #Sequencia de teste
+recursao = [0]
+swaps = [0]
+quicksort_hoare_med(teste, start, end, recursao, swaps)
 print("Array pos ordenamento (horae medio): ", teste)
+print("numero de recursoes", recursao[0])
+print("numero de trocas", swaps[0])
+
+
 
 #Chama a funcao quicksort, utilizando lomuto e med3
 #teste = [19,5,2,10,9,25,93,41,8]  #Reseta a sequencia de teste
