@@ -67,7 +67,7 @@ def quicksort_hoare_rnd(array, start, end, recursao, swaps):
         recursao[0] +=1
         part_random(array, start, end)
         q = hoare(array, start, end, swaps)        
-        quicksort_hoare_rnd(array,start, q - 1, recursao, swaps)      #Ordena os elementos antes do particionador atual    
+        quicksort_hoare_rnd(array,start, q, recursao, swaps)      #Ordena os elementos antes do particionador atual    
         quicksort_hoare_rnd(array, q + 1, end, recursao, swaps)       #Ordena os elementos depois do particionador atual
 
 #Funcao Quicksort, utilizando o particionamento de Hoare mediana3
@@ -76,7 +76,7 @@ def quicksort_hoare_med(array, start, end, recursao, swaps):
         recursao[0] +=1
         part_mediana3(array, start, end)        
         q = hoare(array, start, end, swaps)        
-        quicksort_hoare_med(array,start, q - 1, recursao, swaps)      #Ordena os elementos antes do particionador       
+        quicksort_hoare_med(array,start, q, recursao, swaps)      #Ordena os elementos antes do particionador       
         quicksort_hoare_med(array, q + 1, end, recursao, swaps)       #Ordena os elementos depois do particionador
 
 #Funcao do particionamento de Lomuto
@@ -101,16 +101,19 @@ def lomuto(array,start,end, swaps):
 #Funcao do particionamento de Hoare
 def hoare(array,start,end, swaps):
     pivot = array[start]
-    i = start + 1
-    j = end
+    i = start - 1
+    j = end + 1
 
     while True:
+        i += 1
         while array[i] < pivot:
-            i += 1
+            i += 1        
+        j -= 1
         while array[j] > pivot:
             j -= 1
         if i >= j:
-            array[start], array[j] = array[j], array[start]    #colocar aqui para trocar
+            swaps[0]+=1
+            array[start], array[j] = array[j], array[start]    #colocar aqui para trocar            
             return j
         swaps[0]+=1
         array[i], array[j] = array[j], array[i]
@@ -169,6 +172,7 @@ for i in textinho:
 arquivo.close()
 f.close()
 
+#Zera as variaveis para ler o proximo arquivo
 textinho = []
 n = 0
 
@@ -210,5 +214,86 @@ for i in textinho:
 arquivo.close()
 f.close()
 
+#Zera as variaveis para ler o proximo arquivo
 textinho = []
 n = 0
+
+#Abre o arquivo novamente. 
+f = open('entrada-quicksort.txt','r') 
+#pra cada linha ele armazena os valores numa string
+for i in tamanho:
+    data = f.readline()
+    #converte a string em uma lista de inteiros
+    vet = [int(i) for i in data.split()]    
+    #remove o primeiro valor, que era o tamanho
+    del vet[0] 
+    end = (len(vet) - 1)
+    inicio = time.time() #variavel que ira cronometrar o tempo de execucao.
+    textinho.append('TAMANHO ENTRADA ' + str(tamanho[n]))
+    textinho.append('\n') 
+    n += 1  
+    quicksort_hoare_rnd(vet, start, end, recursao, swaps)
+    #Calcula o tempo decorrido durante a execucao da funcao.
+    fim = time.time()
+    tempo = (fim - inicio)
+    textinho.append('SWAPS ' + str(swaps[0])) 
+    textinho.append('\n') 
+    textinho.append('RECURSOES ' + str(recursao[0])) 
+    textinho.append('\n')
+    textinho.append('TEMPO ' + str(tempo))
+    textinho.append('\n')
+    #Zera as variaveis
+    zera_o_bagulho(recursao,swaps)
+    tempo = 0
+    start = 0
+
+#Cria o arquivo de saida.
+arquivo = open('stats-aleatorio-hoare.txt', 'w') 
+j = 0
+for i in textinho:
+    arquivo.write(textinho[j])
+    j=j+1
+arquivo.close()
+f.close()
+
+#Zera as variaveis para ler o proximo arquivo
+textinho = []
+n = 0
+
+#Abre o arquivo novamente. 
+f = open('entrada-quicksort.txt','r') 
+#pra cada linha ele armazena os valores numa string
+for i in tamanho:
+    data = f.readline()
+    #converte a string em uma lista de inteiros
+    vet = [int(i) for i in data.split()]    
+    #remove o primeiro valor, que era o tamanho
+    del vet[0] 
+    end = (len(vet) - 1)
+    inicio = time.time() #variavel que ira cronometrar o tempo de execucao.
+    textinho.append('TAMANHO ENTRADA ' + str(tamanho[n]))
+    textinho.append('\n') 
+    n += 1  
+    quicksort_hoare_med(vet, start, end, recursao, swaps)
+    #Calcula o tempo decorrido durante a execucao da funcao.
+    fim = time.time()
+    tempo = (fim - inicio)
+    textinho.append('SWAPS ' + str(swaps[0])) 
+    textinho.append('\n') 
+    textinho.append('RECURSOES ' + str(recursao[0])) 
+    textinho.append('\n')
+    textinho.append('TEMPO ' + str(tempo))
+    textinho.append('\n')
+    #Zera as variaveis
+    zera_o_bagulho(recursao,swaps)
+    tempo = 0
+    start = 0
+
+#Cria o arquivo de saida.
+arquivo = open('stats-mediana-hoare.txt', 'w') 
+j = 0
+for i in textinho:
+    arquivo.write(textinho[j])
+    j=j+1
+arquivo.close()
+f.close()
