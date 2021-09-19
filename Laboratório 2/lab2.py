@@ -4,15 +4,10 @@
 
 #Biblioteca que gera numeros aleatorios
 import random
+import time
 import statistics
 
-
-
-
-
 #Funcao que seleciona a mediana entre 3 valores presentes no vetor (Valor inicial, final, e meio)
-#Sinceramente ficou uma gambiarra bem grande, mas nsei como arrumar mto bem ainda
-#Pode mudar se quiser
 def part_mediana3(array, start, end):
     aux = [0,1,2]
     num = 0    
@@ -42,7 +37,6 @@ def part_mediana3(array, start, end):
 def part_random(array, start, end):    
     #Gera um numero aleatorio que corresponde a uma posicao do array
     n = random.randint(start,end)
-
     #Troca o valor pela primeira posicao do vetor
     aux = array[start]
     array[start] = array[n]
@@ -55,19 +49,17 @@ def quicksort_lomuto_rnd(array, start, end, recursao, swaps):
 
         part_random(array, start, end)
         q = lomuto(array, start, end, swaps)     
-        quicksort_lomuto_rnd(array,start, q - 1, recursao, swaps)        #Ordena os elementos antes do particionador atual       
-        quicksort_lomuto_rnd(array,q + 1, end, recursao, swaps)     #Ordena os elementos depois do particionador atual
-     
-           
+        quicksort_lomuto_rnd(array,start, q - 1, recursao, swaps)   #Ordena os elementos antes do particionador atual       
+        quicksort_lomuto_rnd(array,q + 1, end, recursao, swaps)     #Ordena os elementos depois do particionador atual           
 
 #Funcao Quicksort, utilizando o particionamento de Lomuto
 def quicksort_lomuto_med(array, start, end, recursao, swaps):
     if(start < end):        
         recursao[0] +=1
         part_mediana3(array, start, end)        
-        q = lomuto(array, start, end)        
-        quicksort_lomuto_med(array,start, q - 1, recursao, swaps)     #Ordena os elementos antes do particionador atual       
-        quicksort_lomuto_med(array, q + 1, end, recursao, swaps) #Ordena os elementos depois do particionador atual
+        q = lomuto(array, start, end, swaps)        
+        quicksort_lomuto_med(array,start, q - 1, recursao, swaps)    #Ordena os elementos antes do particionador atual       
+        quicksort_lomuto_med(array, q + 1, end, recursao, swaps)     #Ordena os elementos depois do particionador atual
 
 #Funcao Quicksort, utilizando o particionamento de Hoare random
 def quicksort_hoare_rnd(array, start, end, recursao, swaps):
@@ -80,19 +72,19 @@ def quicksort_hoare_rnd(array, start, end, recursao, swaps):
 
 #Funcao Quicksort, utilizando o particionamento de Hoare mediana3
 def quicksort_hoare_med(array, start, end, recursao, swaps):
-    if(start < end):
+    if(start < end):       
         recursao[0] +=1
-        part_mediana3(array, start, end)
+        part_mediana3(array, start, end)        
         q = hoare(array, start, end, swaps)        
         quicksort_hoare_med(array,start, q - 1, recursao, swaps)      #Ordena os elementos antes do particionador       
         quicksort_hoare_med(array, q + 1, end, recursao, swaps)       #Ordena os elementos depois do particionador
 
 #Funcao do particionamento de Lomuto
 def lomuto(array,start,end, swaps):      
-    x = array[start] #particionador     
+    pivot = array[start] #particionador     
     i = start + 1 
     for j in range (start + 1,end + 1):                
-        if array[j] <= x:
+        if array[j] <= pivot:
             swaps[0]+=1
             #Troca array[i] com array[j]
             aux = array[i]                 
@@ -127,34 +119,96 @@ def zera_o_bagulho(recursao, swaps):
     recursao[0]=0
     swaps[0]=0
 
+#Funcao main
+#vai criar uma lista onde vai ser posto o texto antes de ser escrito no arquivo
+textinho = []
 recursao = [0]
 swaps=[0]
-#Funcao main
-teste = [19,5,2,10,9,25,93,52,33,2,9,41,8]  #Sequencia de teste
 start = 0
-end = (len(teste) - 1)
+n = 0
 
+#abre o arquivo para criar uma lista com os tamanhos de cada array
+with open('entrada-quicksort.txt','r') as f: 
+    tamanho = [int(r.split()[0]) for r in f]
 
-#Chama a funcao quicksort, utilizando lomuto e random
-quicksort_lomuto_rnd(teste, start, end, recursao, swaps)
-print("Array pos ordenamento (Lomuto random): ", teste)
-print("numero de recursoes", recursao[0])
-print("numero de trocas", swaps[0])
+#Abre o arquivo novamente. 
+f = open('entrada-quicksort.txt','r') 
+#pra cada linha ele armazena os valores numa string
+for i in tamanho:
+    data = f.readline()
+    #converte a string em uma lista de inteiros
+    vet = [int(i) for i in data.split()]    
+    #remove o primeiro valor, que era o tamanho
+    del vet[0] 
+    end = (len(vet) - 1)
+    inicio = time.time() #variavel que ira cronometrar o tempo de execucao.
+    textinho.append('TAMANHO ENTRADA ' + str(tamanho[n]))
+    textinho.append('\n') 
+    n += 1  
+    quicksort_lomuto_rnd(vet, start, end, recursao, swaps)
+    #Calcula o tempo decorrido durante a execucao da funcao.
+    fim = time.time()
+    tempo = (fim - inicio)
+    textinho.append('SWAPS ' + str(swaps[0])) 
+    textinho.append('\n') 
+    textinho.append('RECURSOES ' + str(recursao[0])) 
+    textinho.append('\n')
+    textinho.append('TEMPO ' + str(tempo))
+    textinho.append('\n')
+    #Zera as variaveis
+    zera_o_bagulho(recursao,swaps)
+    tempo = 0
+    start = 0
 
+#Cria o arquivo de saida.
+arquivo = open('stats-aleatorio-lomuto.txt', 'w') 
+j = 0
+for i in textinho:
+    arquivo.write(textinho[j])
+    j=j+1
+arquivo.close()
+f.close()
 
+textinho = []
+n = 0
 
+#Abre o arquivo novamente. 
+f = open('entrada-quicksort.txt','r') 
+#pra cada linha ele armazena os valores numa string
+for i in tamanho:
+    data = f.readline()
+    #converte a string em uma lista de inteiros
+    vet = [int(i) for i in data.split()]    
+    #remove o primeiro valor, que era o tamanho
+    del vet[0] 
+    end = (len(vet) - 1)
+    inicio = time.time() #variavel que ira cronometrar o tempo de execucao.
+    textinho.append('TAMANHO ENTRADA ' + str(tamanho[n]))
+    textinho.append('\n') 
+    n += 1  
+    quicksort_lomuto_med(vet, start, end, recursao, swaps)
+    #Calcula o tempo decorrido durante a execucao da funcao.
+    fim = time.time()
+    tempo = (fim - inicio)
+    textinho.append('SWAPS ' + str(swaps[0])) 
+    textinho.append('\n') 
+    textinho.append('RECURSOES ' + str(recursao[0])) 
+    textinho.append('\n')
+    textinho.append('TEMPO ' + str(tempo))
+    textinho.append('\n')
+    #Zera as variaveis
+    zera_o_bagulho(recursao,swaps)
+    tempo = 0
+    start = 0
 
-teste = [19,5,2,10,9,25,93,52,33,2,9,41,8]  #Sequencia de teste
-recursao = [0]
-swaps = [0]
-quicksort_hoare_med(teste, start, end, recursao, swaps)
-print("Array pos ordenamento (horae medio): ", teste)
-print("numero de recursoes", recursao[0])
-print("numero de trocas", swaps[0])
+#Cria o arquivo de saida.
+arquivo = open('stats-mediana-lomuto.txt', 'w') 
+j = 0
+for i in textinho:
+    arquivo.write(textinho[j])
+    j=j+1
+arquivo.close()
+f.close()
 
-
-
-#Chama a funcao quicksort, utilizando lomuto e med3
-#teste = [19,5,2,10,9,25,93,41,8]  #Reseta a sequencia de teste
-#quicksort_lomuto_med(teste, start, end)
-#print("Array pos ordenamento (Lomuto med3): ", teste)
+textinho = []
+n = 0
