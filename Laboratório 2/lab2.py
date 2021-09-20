@@ -122,18 +122,91 @@ def zera_o_bagulho(recursao, swaps):
     recursao[0]=0
     swaps[0]=0
 
+def escrita(funcao,modo,texto):
+    if(funcao == 'lomuto'):
+        if(modo=='rnd'):
+            arquivo = open('stats-aleatorio-lomuto.txt', 'w') 
+        else:
+            arquivo = open('stats-mediana-lomuto.txt', 'w')
+    else:
+        if(modo=='rnd'):
+            arquivo = open('stats-aleatorio-hoare.txt', 'w') 
+        else:
+            arquivo = open('stats-mediana-hoare.txt', 'w')
+        
+
+    j = 0
+    for i in texto:
+        arquivo.write(texto[j])
+        j=j+1
+    arquivo.close()
+    f.close()
+
+
+def leitura_e_escrita(funcao,modo,tamanho):
+    f = open('entrada-quicksort.txt','r') 
+    textinho = []
+    recursao = [0]
+    swaps=[0]
+    start = 0
+    n = 0
+    for i in tamanho:
+        data = f.readline()
+        #converte a string em uma lista de inteiros
+        vet = [int(i) for i in data.split()]    
+        #remove o primeiro valor, que era o tamanho
+        del vet[0] 
+        end = (len(vet) - 1)
+        inicio = time.time() #variavel que ira cronometrar o tempo de execucao.
+        textinho.append('TAMANHO ENTRADA ' + str(tamanho[n]))
+        textinho.append('\n') 
+        n += 1  
+        if(funcao == 'lomuto'):
+            if(modo == 'rnd'):
+                quicksort_lomuto_rnd(vet, start, end, recursao, swaps)
+            else:
+                quicksort_lomuto_med(vet, start, end, recursao, swaps)
+        else:
+            if(modo == 'rnd'):
+                quicksort_hoare_rnd(vet, start, end, recursao, swaps)
+            else:
+                quicksort_hoare_med(vet, start, end, recursao, swaps)
+        #Calcula o tempo decorrido durante a execucao da funcao.
+        fim = time.time()
+        tempo = (fim - inicio)
+        textinho.append('SWAPS ' + str(swaps[0])) 
+        textinho.append('\n') 
+        textinho.append('RECURSOES ' + str(recursao[0])) 
+        textinho.append('\n')
+        textinho.append('TEMPO ' + str(tempo))
+        textinho.append('\n')
+        #Zera as variaveis
+        zera_o_bagulho(recursao,swaps)
+    
+    escrita(funcao,modo,textinho)
+    
+    
+
+
 #Funcao main
 #vai criar uma lista onde vai ser posto o texto antes de ser escrito no arquivo
-textinho = []
-recursao = [0]
-swaps=[0]
-start = 0
-n = 0
+
+
+##textinho = []
+#recursao = [0]
+#swaps=[0]
+#start = 0
+#n = 0
 
 #abre o arquivo para criar uma lista com os tamanhos de cada array
 with open('entrada-quicksort.txt','r') as f: 
     tamanho = [int(r.split()[0]) for r in f]
 
+leitura_e_escrita('lomuto','rnd',tamanho)
+leitura_e_escrita('lomuto','med',tamanho)
+leitura_e_escrita('horae','rnd',tamanho)
+leitura_e_escrita('horae','med',tamanho)
+'''
 #Abre o arquivo novamente. 
 f = open('entrada-quicksort.txt','r') 
 #pra cada linha ele armazena os valores numa string
@@ -297,3 +370,4 @@ for i in textinho:
     j=j+1
 arquivo.close()
 f.close()
+'''
