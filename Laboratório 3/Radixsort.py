@@ -11,7 +11,9 @@
 texto_completo = []
 texto_real = []
 
-def deletest(texto):
+#Essa funcao deleta do texto todas as palavras com menos de 4 letras
+#e todas as strings que nao contem letras do alfabeto ingles
+def deletext(texto):
     for i in range(0, len(texto)):
         if (len(texto[i]) >= 4):
             if(texto[i] >= 'A' and texto[i] <= 'Z'):
