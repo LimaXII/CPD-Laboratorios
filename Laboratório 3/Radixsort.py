@@ -14,7 +14,8 @@ texto_real = []
 def deletest(texto):
     for i in range(0, len(texto)):
         if (len(texto[i]) >= 4):
-            texto_real.append(texto[i])
+            if(texto[i] >= 'A' and texto[i] <= 'Z'):
+                texto_real.append(texto[i])
 
 #Abre e le o arquivo inteiro.
 with open('frankestein_clean.txt','r') as f: 
