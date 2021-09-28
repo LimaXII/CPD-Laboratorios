@@ -15,7 +15,9 @@ texto_real = []
 #e todas as strings que nao contem letras do alfabeto ingles
 def deletext(texto):
     for i in range(0, len(texto)):
+        #Remove as palavras menore do que 4 letras
         if (len(texto[i]) >= 4):
+            #Caso seja maior que 4, remove palavras que nao contem letras do alfabeto ingles
             if(texto[i] >= 'A' and texto[i] <= 'Z'):
                 texto_real.append(texto[i])
 
@@ -25,7 +27,7 @@ with open('frankestein_clean.txt','r') as f:
     texto = [str(i) for i in data.split()] 
 
 #Chama a funcao para deletar todas as palavras com menos que 4 letras do texto.
-deletest(texto)
+deletext(texto)
 
 #So criei um arquivo para testar se o vetor texto realmente tava com o texto certinho.
 arquivo = open('escrita_teste.txt', 'w')
