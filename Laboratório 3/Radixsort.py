@@ -9,17 +9,19 @@
 #variavel que vai armazenar o texto.
 #O texto vai ser um vetor e cada palavra sera um nodo do vetor.
 texto_completo = []
-texto_real = []
-texto_real2 = []
-max_size = [0]
-texto_aux = []
 
-#array_aux = [[[] for _ in range (0,28)] for _ in range (0,28)]
+#texto_real2 = []
+
+max_size = [0]
+#texto_aux = []
+
+
 
 
 #Essa funcao deleta do texto todas as palavras com menos de 4 letras
 #e todas as strings que nao contem letras do alfabeto ingles
 def deletext(texto,max_size):
+    texto_real = []
     for i in range(0, len(texto)):
         #Remove as palavras menore do que 4 letras
         if (len(texto[i]) >= 4):
@@ -28,12 +30,20 @@ def deletext(texto,max_size):
             #Caso seja maior que 4, remove palavras que nao contem letras do alfabeto ingles
             if(texto[i] >= 'A' and texto[i] <= 'Z'):
                 texto_real.append(texto[i])
-                 
+    texto.clear()
+
+    for i in range(0,len(texto_real)):
+        texto.append(texto_real[i])
 
 def organizatext(texto,max_size):
-    texto_aux = texto
+    texto_aux = [[] for _ in range (0,len(texto))]
+    for i in range(0,len(texto)):
+        texto_aux[i] = texto[i]
+    
     for a in range(0,max_size[0]):
+        #cria um array auxiliar com dois parametros pra fazer o radix sort
         array_aux = [[[] for _ in range (0,len(texto_aux))] for _ in range (0,28)]
+        #zera os indicadores para cada letra avaliada (AA significa que a palavra é menor do que a posição do termo avaliado)
         AA = 0
         A = 0
         B = 0
@@ -61,10 +71,13 @@ def organizatext(texto,max_size):
         X = 0
         Y = 0
         Z = 0
+        #para cada palavra no texto
         for i in range(0,len(texto_aux)):
+            #verifica se a posição da letra analisada é vazia
             if(len(texto_aux[i]) < (max_size[0] - a)):
                 array_aux[0][AA] = (texto_aux[i])
                 AA += 1
+            #senão põe em um array referente à letra analisada
             else:
                 if(texto_aux[i][(max_size[0]-a-1)] == 'A'):
                     array_aux[1][A] = (texto_aux[i])
@@ -144,8 +157,9 @@ def organizatext(texto,max_size):
                 elif(texto_aux[i][(max_size[0]-a-1)] == 'Z'):
                     array_aux[26][Z] = (texto_aux[i])
                     Z += 1
-        print(len(texto_aux))
+        
         p = 0
+        #para cada valor existente nos arrays adiciona a palavra no seu lugar correspondente no array auxiliar, substituindo o valor anterior
         for k in range(0,len(array_aux)):
             for l in range(0,len(array_aux[k])):
 
@@ -153,13 +167,37 @@ def organizatext(texto,max_size):
                     texto_aux[p] = array_aux[k][l] 
                     p += 1
                     
-        print("a = ", a)
+        #depois de passados todos os valores, dá um clear no texto passado e poe o texto auxiliar no texto
+    
+    texto.clear()
     for i in range(0, len(texto_aux)):
-        texto_real2.append(texto_aux[i])       
+        texto.append(texto_aux[i])
 
         
                 
-    
+def ajeitaTudo(texto):
+    texto_real_oficial = []
+    palavraContando = 'sla'
+    contador = 0
+    for i in range(0,len(texto)):
+        if(texto[i]==palavraContando):
+            contador += 1   
+        else:
+            if(palavraContando != 'sla'):
+                texto_real_oficial.append(palavraContando)
+                texto_real_oficial.append(' ')
+                texto_real_oficial.append(str(contador))
+                texto_real_oficial.append('\n')
+            else:
+                texto_real_oficial.append(' ')
+
+
+            palavraContando = texto[i]
+            contador = 1
+    texto.clear()
+    for i in range(0, len(texto_real_oficial)):
+        texto.append(texto_real_oficial[i])
+
 
 
 
@@ -170,75 +208,46 @@ with open('frankestein_clean.txt','r') as f:
     data = f.readline()    
     texto = [str(i) for i in data.split()] 
 
+print(len(texto))
 #Chama a funcao para deletar todas as palavras com menos que 4 letras do texto.
 deletext(texto,max_size)
 
-organizatext(texto_real,max_size)
+organizatext(texto,max_size)
+
+ajeitaTudo(texto)
 
 #So criei um arquivo para testar se o vetor texto realmente tava com o texto certinho.
-arquivo = open('escrita_teste2.txt', 'w')
+arquivo = open('frankenstein_ordenado.txt', 'w')
 j = 0
 i = 0
 
-for i in texto_real2:
-    arquivo.write(texto_real2[j])
+for i in texto:
+    arquivo.write(texto[j])
+    arquivo.write(' ')
+    j=j+1
+arquivo.close()
+
+with open('war_and_peace_clean.txt','r') as f: 
+    data = f.readline()    
+    texto = [str(i) for i in data.split()] 
+
+print(len(texto))
+#Chama a funcao para deletar todas as palavras com menos que 4 letras do texto.
+deletext(texto,max_size)
+
+organizatext(texto,max_size)
+
+ajeitaTudo(texto)
+
+#So criei um arquivo para testar se o vetor texto realmente tava com o texto certinho.
+arquivo = open('war_and_peace_ordenado.txt', 'w')
+j = 0
+i = 0
+
+for i in texto:
+    arquivo.write(texto[j])
     arquivo.write(' ')
     j=j+1
 arquivo.close()
 
 
-
-'''
-if(len(texto[i]) < (max_size[0] - a)):
-                array_aux[0].append(texto[i])
-            else:
-                if(texto[i][(max_size[0]-a-1)] == 'A'):
-                    array_aux[1].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'B'):
-                    array_aux[2].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'C'):
-                    array_aux[3].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'D'):
-                    array_aux[4].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'E'):
-                    array_aux[5].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'F'):
-                    array_aux[6].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'G'):
-                    array_aux[7].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'H'):
-                    array_aux[8].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'I'):
-                    array_aux[9].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'J'):
-                    array_aux[10].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'K'):
-                    array_aux[11].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'L'):
-                    array_aux[12].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'M'):
-                    array_aux[13].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'N'):
-                    array_aux[14].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'O'):
-                    array_aux[15].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'P'):
-                    array_aux[16].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'Q'):
-                    array_aux[17].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'R'):
-                    array_aux[18].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'S'):
-                    array_aux[19].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'T'):
-                    array_aux[20].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'U'):
-                    array_aux[21].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'V'):
-                    array_aux[22].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'W'):
-                    array_aux[23].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'X'):
-                    array_aux[24].append(texto[i])
-                elif(texto[i][(max_size[0]-a-1)] == 'Y'):
-                    array_aux[25].append(texto[i])'''
