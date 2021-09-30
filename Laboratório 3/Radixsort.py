@@ -4,19 +4,12 @@
 
 #Considere apenas as palavras contendo pelo menos 4 caracteres e apenas 
 #letras do alfabeto ingles, isto e, ignore numerais e simbolos.
-
-
 #variavel que vai armazenar o texto.
+
 #O texto vai ser um vetor e cada palavra sera um nodo do vetor.
 texto_completo = []
 
-#texto_real2 = []
-
 max_size = [0]
-#texto_aux = []
-
-
-
 
 #Essa funcao deleta do texto todas as palavras com menos de 4 letras
 #e todas as strings que nao contem letras do alfabeto ingles
@@ -31,10 +24,10 @@ def deletext(texto,max_size):
             if(texto[i] >= 'A' and texto[i] <= 'Z'):
                 texto_real.append(texto[i])
     texto.clear()
-
     for i in range(0,len(texto_real)):
         texto.append(texto_real[i])
 
+#Funcao que ordena o vetor de caracteres
 def organizatext(texto,max_size):
     texto_aux = [[] for _ in range (0,len(texto))]
     for i in range(0,len(texto)):
@@ -156,25 +149,20 @@ def organizatext(texto,max_size):
                     Y += 1
                 elif(texto_aux[i][(max_size[0]-a-1)] == 'Z'):
                     array_aux[26][Z] = (texto_aux[i])
-                    Z += 1
-        
+                    Z += 1        
         p = 0
         #para cada valor existente nos arrays adiciona a palavra no seu lugar correspondente no array auxiliar, substituindo o valor anterior
         for k in range(0,len(array_aux)):
             for l in range(0,len(array_aux[k])):
-
                 if(array_aux[k][l] != []):
                     texto_aux[p] = array_aux[k][l] 
-                    p += 1
-                    
-        #depois de passados todos os valores, dá um clear no texto passado e poe o texto auxiliar no texto
-    
+                    p += 1                    
+        #depois de passados todos os valores, dá um clear no texto passado e poe o texto auxiliar no texto    
     texto.clear()
     for i in range(0, len(texto_aux)):
-        texto.append(texto_aux[i])
+        texto.append(texto_aux[i])        
 
-        
-                
+#Funcao que ajeita a string que ira ser colocada nos arquivos                
 def ajeitaTudo(texto):
     texto_real_oficial = []
     palavraContando = 'sla'
@@ -187,67 +175,68 @@ def ajeitaTudo(texto):
                 texto_real_oficial.append(palavraContando)
                 texto_real_oficial.append(' ')
                 texto_real_oficial.append(str(contador))
-                texto_real_oficial.append('\n')
-            else:
-                texto_real_oficial.append(' ')
-
-
+                texto_real_oficial.append('\n')            
             palavraContando = texto[i]
             contador = 1
     texto.clear()
     for i in range(0, len(texto_real_oficial)):
         texto.append(texto_real_oficial[i])
 
+#Funcao main:
+#Ordenando o arquivo Frankestein
 
-
-
-
-
-#Abre e le o arquivo inteiro.
+#Abre e le o arquivo inteiro
 with open('frankestein_clean.txt','r') as f: 
     data = f.readline()    
     texto = [str(i) for i in data.split()] 
 
+#Printa a quantidade de palavras no texto
 print(len(texto))
-#Chama a funcao para deletar todas as palavras com menos que 4 letras do texto.
+#Chama a funcao para deletar todas as palavras com menos que 4 letras do texto
 deletext(texto,max_size)
 
+#Chama a funcao para ordernar o vetor de caracteres
 organizatext(texto,max_size)
 
+#Ajeita a string a ser colocada no arquivo
 ajeitaTudo(texto)
 
-#So criei um arquivo para testar se o vetor texto realmente tava com o texto certinho.
+#Cria o arquivo frankestein_ordenado.txt
 arquivo = open('frankenstein_ordenado.txt', 'w')
 j = 0
 i = 0
 
+#Escreve no arquivo o conteudo do vetor texto
 for i in texto:
-    arquivo.write(texto[j])
-    arquivo.write(' ')
+    arquivo.write(texto[j])        
     j=j+1
+#Fecha o arquivo
 arquivo.close()
 
+#Ordenando o arquivo war and peace
 with open('war_and_peace_clean.txt','r') as f: 
     data = f.readline()    
     texto = [str(i) for i in data.split()] 
 
+#Printa a quantidade de palavras no texto
 print(len(texto))
 #Chama a funcao para deletar todas as palavras com menos que 4 letras do texto.
 deletext(texto,max_size)
 
+#Chama a funcao para ordernar o vetor de caracteres
 organizatext(texto,max_size)
 
+#Ajeita a string a ser colocada no arquivo
 ajeitaTudo(texto)
 
-#So criei um arquivo para testar se o vetor texto realmente tava com o texto certinho.
+#Cria o arquivo war_and_peace_ordenado.txt
 arquivo = open('war_and_peace_ordenado.txt', 'w')
 j = 0
 i = 0
 
+#Escreve no arquivo o conteudo do vetor texto
 for i in texto:
-    arquivo.write(texto[j])
-    arquivo.write(' ')
+    arquivo.write(texto[j])    
     j=j+1
+#Fecha o arquivo
 arquivo.close()
-
-
