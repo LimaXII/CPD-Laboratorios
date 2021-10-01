@@ -176,6 +176,10 @@ def ajeitaTudo(texto):
                 texto_real_oficial.append('\n')            
             palavraContando = texto[i]
             contador = 1
+    texto_real_oficial.append(palavraContando)
+    texto_real_oficial.append(' ')
+    texto_real_oficial.append(str(contador))
+    texto_real_oficial.append('\n')     
     texto.clear()
     for i in range(0, len(texto_real_oficial)):
         texto.append(texto_real_oficial[i])
@@ -188,8 +192,7 @@ with open('frankestein_clean.txt','r') as f:
     data = f.readline()    
     texto = [str(i) for i in data.split()] 
 
-#Printa a quantidade de palavras no texto
-print(len(texto))
+
 #Chama a funcao para deletar todas as palavras com menos que 4 letras do texto
 deletext(texto,max_size)
 
@@ -216,8 +219,6 @@ with open('war_and_peace_clean.txt','r') as f:
     data = f.readline()    
     texto = [str(i) for i in data.split()] 
 
-#Printa a quantidade de palavras no texto
-print(len(texto))
 #Chama a funcao para deletar todas as palavras com menos que 4 letras do texto.
 deletext(texto,max_size)
 
