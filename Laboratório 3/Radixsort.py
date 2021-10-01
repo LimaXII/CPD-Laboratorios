@@ -17,15 +17,13 @@ def deletext(texto,max_size):
     texto_real = []
     for i in range(0, len(texto)):
         #Remove as palavras menore do que 4 letras
-        if (len(texto[i]) >= 4):
+        if (len(texto[i]) >= 4):            
             if(len(texto[i]) > max_size[0]):
-                max_size[0] = len(texto[i])
-            #Caso seja maior que 4, remove palavras que nao contem letras do alfabeto ingles
-            if(texto[i] >= 'A' and texto[i] <= 'Z'):
-                texto_real.append(texto[i])
+                max_size[0] = len(texto[i])                        
+            texto_real.append(texto[i])
     texto.clear()
     for i in range(0,len(texto_real)):
-        texto.append(texto_real[i])
+        texto.append(texto_real[i])   
 
 #Funcao que ordena o vetor de caracteres
 def organizatext(texto,max_size):
@@ -149,7 +147,7 @@ def organizatext(texto,max_size):
                     Y += 1
                 elif(texto_aux[i][(max_size[0]-a-1)] == 'Z'):
                     array_aux[26][Z] = (texto_aux[i])
-                    Z += 1        
+                    Z += 1                  
         p = 0
         #para cada valor existente nos arrays adiciona a palavra no seu lugar correspondente no array auxiliar, substituindo o valor anterior
         for k in range(0,len(array_aux)):
@@ -158,13 +156,13 @@ def organizatext(texto,max_size):
                     texto_aux[p] = array_aux[k][l] 
                     p += 1                    
         #depois de passados todos os valores, dá um clear no texto passado e poe o texto auxiliar no texto    
-    texto.clear()
+    texto.clear()    
     for i in range(0, len(texto_aux)):
         texto.append(texto_aux[i])        
 
 #Funcao que ajeita a string que ira ser colocada nos arquivos                
 def ajeitaTudo(texto):
-    texto_real_oficial = []
+    texto_real_oficial = []   
     palavraContando = 'sla'
     contador = 0
     for i in range(0,len(texto)):
@@ -181,7 +179,7 @@ def ajeitaTudo(texto):
     texto.clear()
     for i in range(0, len(texto_real_oficial)):
         texto.append(texto_real_oficial[i])
-
+    
 #Funcao main:
 #Ordenando o arquivo Frankestein
 
