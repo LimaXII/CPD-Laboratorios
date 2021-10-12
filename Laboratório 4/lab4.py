@@ -12,14 +12,14 @@
 #-----------------------------------------------------------------------------------------------------------------
 
 #Funcao que cria a tabela hash.
-def hash_table(contents, vet):
+def hash_table(contents, M, vet):
     #Variavel que ira guardar o numero correspondente a cada nome    
-    for x in range (0, 10000):                 #Percorre todas os nomes da lista.                
-        hash = horner_method(contents[x])      #Chama a funcao do metodo de Horner, para achar uma posicao adequada para o nome na tabela hash.                               
-        hash_insert(hash, vet)                 #Chama a funcao que ira inserir os nomes na tabela hash.
+    for x in range (0, 10000):                    #Percorre todas os nomes da lista.                
+        hash = horner_method(contents[x], M)      #Chama a funcao do metodo de Horner, para achar uma posicao adequada para o nome na tabela hash.                               
+        hash_insert(hash, vet)                    #Chama a funcao que ira inserir os nomes na tabela hash.
 
 #Funcao que calcula o valor do polinomio especifico, dado um nome.
-def horner_method(word):
+def horner_method(word, M):
     p = 31                                     #Primeiro numero primo maior que 26.
     hash = 0                                   #Hash comeca valendo 0.
     for i in word:                             #Percorre a palavra.
@@ -28,20 +28,26 @@ def horner_method(word):
             hash = (p * hash + num) % M        #Cria um polinomio correspondente a palavra.            
     return(hash)
 
+#Insere o nome em uma determinada posicao da tabela.
 def hash_insert(pos, vet):  
     #FAZER!
-    print('Precisa fazer')
+    return
 
-
-#Abre e le o arquivo inteiro.
+#Abre e le o arquivo de nomes.
 with open('nomes_10000.txt') as f:    
     contents = f.readlines()          #Armazena cada nome em uma posicao do vetor contents.
 
-M = 503                               #Tamanho da primeira tabela hash a ser criada.
+#Abre e le o arquivo de consulta.
+with open('consultas.txt') as f:    
+    consult_contents = f.readlines()  #Armazena cada nome em uma posicao do vetor contents.
 
+
+M = 503                               #Tamanho da primeira tabela hash a ser criada.
 #---------
-#Tem que arrumar essa declaracao de vetor, acho que ta errada ainda
+#Tem que arrumar essa declaracao de vetor.
+#O certo seria criar um vetor com uma lista em cada posicao. Assim para o caso de colisoes, o valor
+#seria colocado na sequencia da lista do determinado nodo do vetor.
 vet = []                              #Vetor que ira armazenar a tabela hash.
 #---------
 
-hash_table(contents, vet)             #Chama a funcao para criar a tabela hash.
+hash_table(contents, M, vet)             #Chama a funcao para criar a tabela hash.
