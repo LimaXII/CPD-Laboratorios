@@ -1,0 +1,3 @@
+O programa utiliza a função "horner_method" para atribuir a cada palavra um valor entre 0 e o tamanho da tabela menos 1
+Em seguida utiliza a função "hash_insert" para inserir o nome na última posição do enésimo array da tabela formada, onde n é o valor atribuído anteriormente
+Para consultar um nome, o programa primeiro gera um valor ao nome inserido, utilizando o mesmo método da inserção, e depois percorre o enésimo array da tabela para conferir se o nome está lá, retornando -1 caso o nome não seja encontrado ou a posição do nome no array mais 1 caso ele esteja lá, para representar o número de consultas realizadas

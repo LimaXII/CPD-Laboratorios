@@ -30,7 +30,7 @@ def realizar_consulta(vet,name):
     for i in range(0,len(vet[aux])):
         if(name==vet[aux][i]):
             return i+1
-    return len(vet[aux])+1
+    return -1
 
 #Funcao que cria todos os arquivos de saida.
 def cria_arquivo(M):      
@@ -45,16 +45,26 @@ def cria_texto():
     contador = 0
     maximo = 0
     for i in range(0,len(consult_contents)):
+        numcons = realizar_consulta(vet,consult_contents[i])
+        if(numcons>maximo):
+            maximo=numcons
+    maismax=maximo + 1
+    for i in range(0,len(consult_contents)):
         aux=consult_contents[i][0:len(consult_contents[i])-1]
         numcons = realizar_consulta(vet,consult_contents[i])
         escrita.append(aux)
         escrita.append(" ")
-        escrita.append(numcons)
+        if(numcons == -1):
+            escrita.append(maismax)
+        else:
+            escrita.append(numcons)
         escrita.append('\n')
-        media += numcons
+        if(numcons == -1):
+            media += maismax
+        else:
+            media += numcons
         contador += 1
-        if(numcons>maximo):
-            maximo=numcons
+
     media = media/contador
     escrita.append("MEDIA ")
     escrita.append(media)
@@ -64,11 +74,11 @@ def cria_texto():
     escrita.append('\n')
 
 #Abre e le o arquivo de nomes.
-with open('nomes_10000.txt') as f:       #C:\\Users\\bruno\\OneDrive\\Documentos\\GitHub\\fafafa\\fafasfa\\Laboratório 4\\
+with open('C:\\Users\\bruno\\OneDrive\\Documentos\\GitHub\\fafafa\\fafasfa\\Laboratório 4\\nomes_10000.txt') as f:       #C:\\Users\\bruno\\OneDrive\\Documentos\\GitHub\\fafafa\\fafasfa\\Laboratório 4\\
     contents = f.readlines()             #Armazena cada nome em uma posicao do vetor contents.
 
 #Abre e le o arquivo de consulta.
-with open('consultas.txt') as f:    
+with open('C:\\Users\\bruno\\OneDrive\\Documentos\\GitHub\\fafafa\\fafasfa\\Laboratório 4\\consultas.txt') as f:    
     consult_contents = f.readlines()     #Armazena cada nome em uma posicao do vetor contents.
 
 #Tabela Hash com M = 503.   
